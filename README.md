@@ -23,9 +23,9 @@
 - A feature class has one column for each attribute that describes the feature such as manufacturer or serialNumber. And each row defines a particular configuration of one feature class. e.g. if all 3 manholes share the same characteristics, we may have 1 row in the Structure_Catalog table that describes that manhole and all 3 rows in the Structure table references this single row in the Structure_Catalog. This is a normalized database model. Later on we could decide to denormalize it, and duplicate the data in the feature table.
 - We need to model Structures and Spans. We could model the two entities as just one. However structures and spans may have different attributes, thus we are going to treat them differently and have different tables for each one.
 - For each type of feature we are going to create 3 tables: X, X_Catalog and X_Types. For example:
-  - Structure table contains structure features
-  - Structure_Catalog contains the feature classes for structure features
-  - Structure_Types which allows us to classify/group the catalog of structures feature classes into sub-types/categories
+  - Structure table contains structure features,
+  - Structure_Catalog contains the feature classes for structure features,
+  - Structure_Types which allows us to classify/group the catalog of structures feature classes into sub-types/categories. For example, there could be many types of spans but we can classify them into aerials, underground, etc. Types will be later on used to model connectivity rules in a geometry network.
 - Feature tables are not related between each. Instead, we model that relationship thru a different table that models geometry networks, i.e. from node1 feature to node2 feature using a link feature.  
 - We are going to model just one type of network, the civil one, hence we create a table that models just that. Later if we need another network, we create its own table.
 - To model our civil network we are going to create a geometry table that has 2 nodes and 1 link column that points to a feature table respectively.
