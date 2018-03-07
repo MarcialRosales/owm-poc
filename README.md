@@ -19,7 +19,7 @@
 ![data model](model-01.png)
 
 - There are no predefined table model. In other words, the application does not have any concept of entities (there is no ORM)
-- We build table model on demand based on business needs.
+- We build table model on demand based on business needs and using an API.
 - In a GIS database we have, at least, feature and feature classes tables.
 - A feature table contains elements we place in a map. A feature table has at least per row, a geometry attribute with its shape and coordinates and a link to its feature class. e.g. if we have 3 manholes in a map, we have 3 rows on this table, one for each manhole.
 - A feature class has one column for each attribute that describes the feature such as manufacturer or serialNumber. And each row defines a particular configuration of one feature class. e.g. if all 3 manholes share the same characteristics, we may have 1 row in the Structure_Catalog table that describes that manhole and all 3 rows in the Structure table references this single row in the Structure_Catalog. This is a normalized database model. Later on we could decide to denormalize it, and duplicate the data in the feature table.
