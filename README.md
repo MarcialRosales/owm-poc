@@ -16,28 +16,29 @@
 
 ### The data model
 
-- There is no predefined set of tables up front
-- We need a type of feature to model structures , so we create 3 tables:
-  - Structure which contains the actual features we place in the  map that we select from a catalog of features
-  - Structure_Catalog which contains the catalog of Structures available
-  - Structure_Types which allows us to classify/group the catalog of structures into sub-types/categories
-- We decided that structures and spans are quite different things and hence we model with 2 separate feature class:
-  We have them STRUCTURE, STRUCTURE_CATALOG AND STRUCTURE_TYPES tables
-  And SPAN, SPAN_CATALOG, SPAN_TYPES tables
-- These features are not related between each but we need to relate them to create a geometry network
-  We create a geometry network (we dont use Oracle specifics) with 2 tables per network.
-  We need to create a civil network that links structure and spans
-   - CIVIL_NETWORK that links 2 nodes: Nodes are STRUCTURE feature class and Link is SPAN feature class
+- There are no predefined table model. In other words, the application does not have any concept of entities (there is no ORM)
+- We build table model on demand based on business needs.
+- In a GIS database we have, at least, feature and feature classes tables.
+- A feature table contains elements we place in a map. A feature table has at least per row, a geometry attribute with its shape and coordinates and a link to its feature class. e.g. if we have 3 manholes in a map, we have 3 rows on this table, one for each manhole.
+- A feature class has one column for each attribute that characterizes the feature. And each row defines a particular configuration of one feature class. e.g. In the example above, if all 3 manholes are of the same characteristics, we have 1 row in the Structure_Catalog table that describes that manhole and all 3 rows in the Structure table references this single row in the Structure_Catalog. This is a normalized database model. Later on we could decide to denormalize it, and duplicate the data in the feature table.
+- We need to model Structures and Spans. We could model the two entities as just one. However structures and spans may have different attributes, thus we are going to treat them differently and have different tables for each one.
+- For each type of feature we are going to create 3 tables: X, X_Catalog and X_Types. For example:
+  - Structure table contains structure features
+  - Structure_Catalog contains the feature classes for structure features
+  - Structure_Types which allows us to classify/group the catalog of structures feature classes into sub-types/categories
+- Feature tables are not related between each. Instead, we model that relationship thru a different table that models geometry networks, i.e. from node1 feature to node2 feature using a link feature.  
+- We are going to model just one type of network, the civil one, hence we create a table that models just that. Later if we need another network, we create its own table.
+- To model our civil network we are going to create a geometry table that has 2 nodes and 1 link column that points to a feature table respectively.
+   - Node1 and Node2 columns refers to the STRUCTURE feature table
+   - Link column refers to the SPAN feature table
    - CIVIL_NETWORK_ALLOW_RULES allows us to further define which specific types within a feature class can be connected
 
-- Only the actual feature tables and the network table (not the rules) are versioned
-- The rest of the tables are modified globally, like any RDBMS table.
-- The view (a.k.a. DataSet) called Civil_catalog combines the feature class tables of structure, span
+- We only need to version feature tables and the network table (not the rules). Static data like catalog, types and rules are global.
 
-To install the data model, go to `model-01` and run `setup.sql`.
+To install or view the data model, go to `model-01` and open/run `setup.sql`.
 
 
-### Scenarios to validate versioning a Civil Network database
+### Scenarios
 
 We are going to define a number of scenarios that 2 users -Bob and Bill- will encounter while creating their plans. Each user works on his own work space.
 
@@ -47,7 +48,6 @@ NOTE:
 - We are not keeping span geometry consistent when we move the nodes they are linked to. For example, says 2 poles are linked via an aerial span. If we change the coordinates of one of the poles, we are not going to adjust the coordinates of the span so that it still links the 2 poles. It is for now outside of the scope of these validation scenarios. The goal is just to validate the versioning scenarios.
 
 
-Scenarios:
 0. We start with an inventory of structures and spans created by the `setup.sql` scripts and illustrated below:
   ![initial inventory](inventory-0.png)
 1. [01-1-bobExtendsExistingPlan.sql](model-01/01-1-bobExtendsExistingPlan.sql) Bob creates a workspace where he extends the existing inventory. He does not modify any attributes but add new inventory elements. Bob posts his plan so that others can use it.
