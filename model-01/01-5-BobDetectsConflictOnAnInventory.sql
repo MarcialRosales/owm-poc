@@ -1,8 +1,8 @@
 -- Scenario: Demonstrate that we can detect conflicts on inventory (i.e. structure and span feature tables)
 --            Sequence of events:
 --              - Bill changes the location of MH2 and posts it
---              - Bob changes the location of MH2 too and post it
---              - Bob posts his changes and detect that there is a conflict
+--              - Bob changes the location of MH2 too
+--              - Bob detects that there is a conflict if he tried to post his changes
 --              - Bob resolves the change by keeping Bill changes instead of his.
 --
 
