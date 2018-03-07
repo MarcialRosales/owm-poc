@@ -44,8 +44,8 @@ We are going to define a number of scenarios that 2 users -Bob and Bill- will en
 
 NOTE:
 - *feature* and *inventory* are used indistinctly.
-- We are not leveraging the civil network geometry rules we defined in `setup.sql`.
-- We are not keeping span geometry consistent when we move the nodes they are linked to. For example, says 2 poles are linked via an aerial span. If we change the coordinates of one of the poles, we are not going to adjust the coordinates of the span so that it still links the 2 poles. It is for now outside of the scope of these validation scenarios. The goal is just to validate the versioning scenarios.
+- We are not leveraging the civil network geometry rules we defined in `setup.sql`. In other words, we are not going to check which features can be connected. This is not enforced by the database itself but by the application logic that access the database.
+- We are not keeping links' geometry consistent when we move the nodes it is joining. For example, says 2 poles are joined via an aerial span. If we change the coordinates of one of the poles, we are not going to adjust the coordinates of the span so that it still links the 2 poles. It is for now outside of the scope of these validation scenarios. The goal is just to validate the versioning scenarios.
 
 
 0. We start with an inventory of structures and spans created by the `setup.sql` scripts and illustrated below:
