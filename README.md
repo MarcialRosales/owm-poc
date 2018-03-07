@@ -16,6 +16,8 @@
 
 ### The data model
 
+![data model](model-01.png)
+
 - There are no predefined table model. In other words, the application does not have any concept of entities (there is no ORM)
 - We build table model on demand based on business needs.
 - In a GIS database we have, at least, feature and feature classes tables.
