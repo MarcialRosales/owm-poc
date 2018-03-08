@@ -11,7 +11,7 @@ EXECUTE DBMS_WM.GotoWorkspace ('bill-01');
 
 -- Add another home (MDU-2) and connect it to MH2
 insert into STRUCTURE values (6, '3,4', 'MDU-2', 9);
-insert into SPAN values (6, '(3,4),(2,1)', 'C/W-1', 5);
+insert into SPAN values (6, '(3,4),(2,1)', 'C/W-2', 5);
 insert into CIVIL_NETWORK VALUES (5, 1, 6, 6);
 commit;
 
