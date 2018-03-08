@@ -53,11 +53,58 @@ NOTE:
 0. We start with an inventory of structures and spans created by the `setup.sql` scripts and illustrated below:
   ![initial inventory](inventory-0.png)
 1. [01-1-bobExtendsExistingPlan.sql](model-01/01-1-bobExtendsExistingPlan.sql) Bob creates a workspace where he extends the existing inventory. He does not modify any attributes but add new inventory elements. Bob posts his plan so that others can use it.
-3. [01-2-bobModifiesItsOwnPlan.sql](model-01/01-2-bobModifiesItsOwnPlan.sql) Demonstrate Bob can remove previously added inventory and modify features and network attributes.
-4. [01-3-billExtendsBobPlans.sql](model-01/01-3-billExtendsBobPlans.sql) Demonstrate Bill can work in parallel with Bob. Bill can use any inventory posted by Bob. But Bill cannot use any inventory that Bob has not posted yet. Bill will only add features and network connections. He will not modify attributes of existing features. This means that this scenario will not produce any conflict.
-5. [01-4-bobFurtherExtendsPlansWithoutConflictWithBillChanges.sql](model-01/01-4-bobFurtherExtendsPlansWithoutConflictWithBillChanges.sql) Demonstrate that there are no conflicts when we simply add features. **I think this scenario is not necessary as we have already tested it**
+3. [01-2-bobModifiesItsOwnPlan.sql](model-01/01-2-bobModifiesItsOwnPlan.sql) Bob can remove previously added inventory and modify features and network attributes.
+4. [01-3-billExtendsBobPlans.sql](model-01/01-3-billExtendsBobPlans.sql) Bill creates another workspace where he extends Bob's plan. Bill can use any inventory posted by Bob. But Bill cannot use any inventory that Bob has not posted yet. In this scenario, Bill only adds features and network connections. He does not modify attributes of existing features. This means that this scenario will not produce any conflict when Bill posts his changes.
+5. [01-4-bobFurtherExtendsPlansWithoutConflictWithBillChanges.sql](model-01/01-4-bobFurtherExtendsPlansWithoutConflictWithBillChanges.sql) Bob continue extending his plan after Bill has already extended. Bob posts his changes without no conflicts because he is not changing inventory, only adding.
 6. [01-5-BobDetectsConflictOnAnInventory.sql](model-01/01-5-BobDetectsConflictOnAnInventory.sql) Demonstrate that we can detect conflicts on inventory (i.e. structure and span feature tables). Sequence of events:
   - Bill changes the location of MH2 and posts it
   - Bob changes the location of MH2 too
-  - Bob detects the conflict 
+  - Bob detects the conflict
   - Bob uses Bill changes to resolve the change
+
+
+No Conflicts:
+1) Merge a record (Manhole-1) which has not changed in LIVE
+  LIVE: Manhole-1.label = 'A'
+  Base: Manhole-1.label = 'A'
+  WO:   Manhole-1.label = 'C'  
+
+  after merge:
+  LIVE: Manhole-1.label = 'C'
+  Base: Manhole-1.label = 'C'
+
+2) Merge a record (Manhole-1) which has not changed in LIVE but LIVE has new records (manhole-2)
+  LIVE: Manhole-1.label = 'A'
+        Manhole-2.label = 'X'  (new recorded added)
+  Base: Manhole-1.label = 'A'
+  WO:   Manhole-1.label = 'C'  
+
+  after merge: Base has the new manhole-2 record
+  LIVE: Manhole-1.label = 'C'
+        Manhole-2.label = 'X'
+  Base: Manhole-1.label = 'C'
+        Manhole-2.label = 'X'
+
+3) Merge a record (Manhole-1) which has not changed in LIVE but LIVE has other recorded deleted (manhole-2)
+  LIVE: Manhole-1.label = 'C'        
+                                <<<<  manhole-2 deleted
+  Base: Manhole-1.label = 'C'
+        Manhole-2.label = 'X'
+  WO:   Manhole-1.label = 'D'  
+
+  after merge: base has not manhole-2 record
+  LIVE: Manhole-1.label = 'D'
+  Base: Manhole-1.label = 'D'
+        Manhole-2.label = 'D'
+
+
+Conflicts will occur when there are changes and/or deletes: Lets focus on a single table.
+1)
+  LIVE: Manhole-1.label = 'B'
+  Base: Manhole-1.label = 'A'
+  WO:   Manhole-1.label = 'C'  <- conflict: base does not match live
+
+2)
+  LIVE: Manhole-1 deleted
+  Base: Manhole.label = 'A'
+  WO:   Manhole.label = 'C'  <- conflict:
