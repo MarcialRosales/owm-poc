@@ -61,3 +61,4 @@ NOTE:
   - Bob changes the location of MH2 too
   - Bob detects the conflict
   - Bob uses Bill changes to resolve the change
+7. [01-6-BillRemovesInventoryAddedByBob] Demonstrate that removing inventory does not cause conflicts if we have not modified them. Bill deletes MDU-1 and C/W-1 which connected it to MH1. These 2 inventories were initially added by Bob, but it does not really matter, bill can delete them. Bob makes changes in other inventory except MDU-1 and C/W-1 and post his changes. This operation does not cause any conflict and when he refreshes his workspace, those inventories get automatically removed.
