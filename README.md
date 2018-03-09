@@ -32,7 +32,7 @@ These scenarios are modelled [here](playground/1-play.sql):
 
 ### Modelling geometry attributes and doing spatial searching
 
-First we model a features's shape using 'SDO_GEOMETRY' oracle type. A shape consists of its actual shape which can be a point, line, polygon, etc; and its coordinate referenced based on a coordinate system. We have decided to use [British National Grid](https://epsg.io/27700) coordinate system for our tests. We have modelled point features (2 points) and line features that join points together (1 line with one intermediate point). We can locate these features in a [map](https://epsg.io/map#srs=27700&x=525470.479100&y=325260.284765&z=16).
+First we model a features's shape using 'SDO_GEOMETRY' oracle type. A shape consists of its actual shape which can be a point, line, polygon, etc; and its coordinate based on a coordinate system. We have decided to use [British National Grid](https://epsg.io/27700) coordinate system for our tests. We have modelled point features (2 points) and line features that join points together (1 line with one intermediate point). We can locate these features in a [map](https://epsg.io/map#srs=27700&x=525470.479100&y=325260.284765&z=16).
 
 Second we have to create the spatial index so that we can do spatial searches.
 
