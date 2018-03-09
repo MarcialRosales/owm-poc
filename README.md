@@ -36,7 +36,7 @@ First we model a features's shape using 'SDO_GEOMETRY' oracle type. A shape cons
 
 Second we have to create the spatial index so that we can do spatial searches.
 
-And finally, we do a search.
+And finally, we do a search like *Find which features are available around a certain location*.
 
 [geospatial.sql](playground/geospatial.sql)
 
