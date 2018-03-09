@@ -14,6 +14,8 @@
 
 ## Playground
 
+### Testing all sort of scenarios we encounter when we merge/refresh a workspace
+
 Using a very trivial data model, test all the various scenarios we may encounter when we merge/refresh a workspace. For the sake of simplicity, we only use one table but it does not make any difference whether we have 3 tables involved in a conflict.
 
 Table Model consists of just one table called **manhole**. We use just one workspace, **wo-1** in addition to **LIVE**. We merge from **wo-1** to **LIVE**.
@@ -28,6 +30,15 @@ Scenarios:
 
 These scenarios are modelled [here](playground/1-play.sql):
 
+### Modelling geometry attributes and doing spatial searching
+
+First we model a features's shape using 'SDO_GEOMETRY' oracle type. A shape consists of its actual shape which can be a point, line, polygon, etc; and its coordinate referenced based on a coordinate system. We have decided to use [British National Grid](https://epsg.io/27700) coordinate system for our tests. We have modelled point features (2 points) and line features that join points together (1 line with one intermediate point). We can locate these features in a [map](https://epsg.io/map#srs=27700&x=525470.479100&y=325260.284765&z=16).
+
+Second we have to create the spatial index so that we can do spatial searches.
+
+And finally, we do a search.
+
+[geospatial.sql](playground/geospatial.sql)
 
 ## Attempt 1
 
