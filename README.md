@@ -12,6 +12,20 @@
    sqlplus SYSTEM/oracle
    ```
 
+## Playground
+
+Using a very trivial data model, test all the various scenarios we may encounter when we merge/refresh a workspace. For the sake of simplicity, we only use one table but it does not make any difference whether we have 3 tables involved in a conflict.
+
+1. Merge a record (Manhole-1) which has not changed in LIVE
+2. Merge a record (Manhole-1) which has not changed in LIVE but LIVE has new records (manhole-2)
+3. Merge a record (Manhole-1) which has not changed in LIVE but LIVE has deleted records (manhole-2) which were in teh base
+4. CONFLICT: Merge modified record (manhole-1) which has also changed in LIVE
+5. CONFLICT: Merge modified record (manhole-1) which has been deleted in LIVE
+6. NO CONFLICT: Merge delete record (manhole-1) which has been also deleted in LIVE
+
+These scenarios are modelled [here](playground/1-play.sql): 
+
+
 ## Attempt 1
 
 ### The data model
