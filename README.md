@@ -19,9 +19,9 @@ Using a very trivial data model, test all the various scenarios we may encounter
 Table Model consists of just one table called **manhole**. We use just one workspace, **wo-1** in addition to **LIVE**. We merge from **wo-1** to **LIVE**.
 
 Scenarios:
-1. Merge a record (Manhole-1) which has not changed in LIVE
-2. Merge a record (Manhole-1) which has not changed in LIVE but LIVE has new records (manhole-2)
-3. Merge a record (Manhole-1) which has not changed in LIVE but LIVE has deleted records (manhole-2) which the workspace knew about them
+1. [Merge a record (Manhole-1) which has not changed in LIVE](https://github.com/MarcialRosales/owm-poc/blob/master/playground/1-play.sql#L16-L30)
+2. [Merge a record (Manhole-1) which has not changed in LIVE but LIVE has new records (manhole-2)](https://github.com/MarcialRosales/owm-poc/blob/master/playground/1-play.sql#L32-L58)
+3. [Merge a record (Manhole-1) which has not changed in LIVE but LIVE has deleted records (manhole-2) which the workspace knew about them](https://github.com/MarcialRosales/owm-poc/blob/master/playground/1-play.sql#L59-L84)
 4. <span style="color:red">CONFLICT</span>: Merge modified record (manhole-1) which has also changed in LIVE
 5. <span style="color:red">CONFLICT</span>: Merge modified record (manhole-1) which has been deleted in LIVE
 6. NO CONFLICT: Merge delete record (manhole-1) which has been also deleted in LIVE
